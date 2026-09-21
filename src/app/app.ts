@@ -1,12 +1,49 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.css',
+  imports: [FormsModule],
   templateUrl: './app.html',
+  styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('lista-tarefas');
+
+  tarefas = [
+    {
+      descricao: 'Estudar Angular',
+      concluida: false
+    },
+    {
+      descricao: 'Fazer exercício de programação',
+      concluida: true
+    },
+    {
+      descricao: 'Revisar conteúdo da aula',
+      concluida: false
+    }
+  ];
+
+  novaTarefa = '';
+
+  adicionarTarefa() {
+    if (this.novaTarefa.trim() === '') {
+      return;
+    }
+
+    this.tarefas.push({
+      descricao: this.novaTarefa,
+      concluida: false
+    });
+
+    this.novaTarefa = '';
+  }
+
+  removerTarefa(index: number) {
+    this.tarefas.splice(index, 1);
+  }
+
+  contarTarefasConcluidas() {
+    return this.tarefas.filter(tarefa => tarefa.concluida).length;
+  }
 }
